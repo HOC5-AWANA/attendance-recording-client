@@ -15,8 +15,8 @@ def checkin_main():
             checkin_data = create_attendee_record(api)
             if checkin_data:
                 threading.Thread(target=threaded_create_record, args=[checkin_data]).start()
-                print('Checked attendee in')
-                time.sleep(1.5)
+                print('Checked attendee in\n')
+                time.sleep(5)
             else:
                 print('Attendee not checked in, please retry')
                 time.sleep(1.5)
@@ -28,6 +28,7 @@ def checkin_main():
 def threaded_create_record(info):
     user_hash, marked_sunday_school = info
     api.create_attendee_record(user_hash, marked_sunday_school)
+    print('Color recommendation: ' + api.get_color_recommendation(user_hash) + '\n')
 
 clear_console()
 print('[MAIN] Initialization complete')

@@ -90,3 +90,27 @@ class API:
             }
         )
         self.get_attendees_info()
+
+    def get_color_recommendation(self, user_hash):
+        for attendee in self.attendees_info_cache:
+            if user_hash == attendee['user_hash']:
+                if attendee['role'] == 'Student':
+                    grade_level = attendee['designation'].split('-')[0].split('_')[0]
+                    color_group = 'None'
+                    if grade_level == 'Cub':
+                        return 'N/A'
+                    elif grade_level in ['K', '1', '2']:
+                        color_group = 'sparks'
+                    elif grade_level in ['3', '4', '5', '6']:
+                        color_group = 'tnt'
+                    color_data = self.send_request(
+                        '/api/v3/checkin_client/color_selector',
+                        data = {
+                            'color_group': color_group
+                        }
+                    )
+                    if not color_data:
+                        return 'An error occured: failed to connect to server'
+                    return color_data['color']
+                return 'N/A'
+        return 'An error occured: attendee not found'
