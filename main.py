@@ -16,7 +16,7 @@ def checkin_main():
             if checkin_data:
                 threading.Thread(target=threaded_create_record, args=[checkin_data]).start()
                 print('Checked attendee in\n')
-                time.sleep(5)
+                time.sleep(3.5)
             else:
                 print('Attendee not checked in, please retry')
                 time.sleep(1.5)
